@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+require "rgem"
+require 'optparse'
+require 'readline'
+
+options = {}
+
+opt_parser = OptionParser.new do |opt|
+  opt.banner = "Usage: rgem {COMMAND} [OPTIONS]"
+  opt.separator  ""
+  opt.separator  "Commands"
+  opt.separator  "     list: To list all the system dependencies needed."
+  opt.separator  "     install: To install all the system dependencies needed."
+  opt.separator  ""
+  opt.separator  "Options"
+
+  opt.on("-p","--path PATH","Your project directory path") do |path|
+    options[:path] = path
+  end
+
+  opt.separator  ""
+end
+
+opt_parser.parse!
+
+def input(msg)
+  Readline.readline(msg, true).squeeze(" ").strip
+end
+
+case ARGV[0]
+  when "list"
+    sys_dep = []
+    gems = Rgem.list_gems options[:path]
+    if gems.length > 0
+      puts "\n     System dependencies needed\n\n"
+      gems.each do |gem|
+        sys_dep = sys_dep + gem["sysDep"]
+        puts gem["sysDep"]
+      end
+      userInput = input "\nTo install the system dependencies needed, 'yes' or 'no'? "
+      puts "Entered: #{userInput}"
+      Rgem.install sys_dep if userInput == "yes" or userInput == "y"
+    else
+      puts Rgem.get_gem_file_path options[:path]
+      puts "\nCouldn't find system dependencies in our database for your project gems.\n\n"
+    end
+	when "install"
+    Rgem.install_gems options[:path]
+	else
+	  puts opt_parser
+end
