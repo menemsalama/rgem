@@ -38,16 +38,13 @@ Rgem.install_gems nil # for the current project
 ```
 
 ## CLI options
-assuming that you've run `gem install rgem` successfully 
-- to list system dependencies run in terminal
-      rgem list -p ./your_project_path
-- and without -p flag for the current project
-      rgem list
+assuming that you've run `gem install rgem` successfully
 
-- and to list and install
-      rgem install -p ./your_project_path
-- and without -p flag for the current project
-      rgem install
+- to list system dependencies run in terminal `rgem list -p ./your_project_path`
+- and without -p flag for the current project `rgem list`
+
+- and to list and install `rgem install -p ./your_project_path`
+- and without -p flag for the current project `rgem install`
 
 
 <!-- ## Development
